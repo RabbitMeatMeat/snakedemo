@@ -25,23 +25,36 @@ package com.Ren.demo.mvc.view{
 			
 			GlobalFacade.regListener(SnakeConst.V2MT_GAME_START, onGameStart);
 			GlobalFacade.regListener(SnakeConst.M2MT_VO_INIT_FINISH, onModulInitFinished);
-			GlobalFacade.regListener(SnakeConst.M2MT_UPDATE_SNAKE, onUpdateSnake);
-			GlobalFacade.regListener(SnakeConst.M2MT_EAT_BEAN, onEatBean);
+			GlobalFacade.regListener(SnakeConst.M2MT_UPDATE_SCENE, onUpdateScene);
+			
+			//GlobalFacade.regListener(SnakeConst.M2MT_UPDATE_SNAKE, onUpdateSnake);
+			//GlobalFacade.regListener(SnakeConst.M2MT_EAT_BEAN, onEatBean);
 			GlobalFacade.regListener(SnakeConst.M2MT_GAME_OVER, onGameOver);
+			GlobalFacade.regListener(SnakeConst.V2V_LOAD_END, onLoadEnd);
+		//	GlobalFacade.regListener(SnakeConst.M2MT_GET_ROCKET, onGetRocket);
+		}
+		private function onGetRocket(n: Notify): void {
+			_view.getRocket();
+		}
+		
+		private function onLoadEnd(n: Notify): void {
+			_view.imageLoaderComplete();
 		}
 		
 		private function onGameOver(n: Notify): void {
 			_view.gameOver();
 		} 
 		private function onEatBean(n: Notify):void  {
-			_view.eatBean();
+			_view.updateScene();
+		}
+		private function onUpdateScene(n: Notify): void {
+			_view.updateScene();
 		}
 		private function onUpdateSnake(n: Notify): void {
-			_view.updateSnake();
+			_view.updateScene();
 		}
 		private function onModulInitFinished(n: Notify): void {
-			
-			
+				
 			_view.updateScene();
 		}
 		private function onGameStart(n: Notify): void {

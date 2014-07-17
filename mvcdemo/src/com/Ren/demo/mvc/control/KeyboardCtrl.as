@@ -22,8 +22,14 @@ package com.Ren.demo.mvc.control{
 		{
 			var key: uint = n.data as uint;
 			if (key == Keyboard.LEFT || key == Keyboard.RIGHT
-				|| key == Keyboard.UP || key == Keyboard.DOWN) SnakeModel.inst().changeRunDirection(key);					
-			
+				|| key == Keyboard.UP || key == Keyboard.DOWN) {
+				trace("KEY_DIR");
+				SnakeModel.inst().changeRunDirection(key);					
+			}
+			else if (key == Keyboard.SPACE) {
+				trace("KEY_SPACE");
+				SnakeModel.inst().shootRocket(key);
+			}
 		}
 	}
 }

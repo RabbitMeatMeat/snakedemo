@@ -65,7 +65,12 @@ package com.Ren.framework{
 					GlobalFacade.sendNotify(KeyboardConsts.KEY_DOWN_DOWN, this, Keyboard.DOWN);
 					break;
 				}
-				
+					
+				case Keyboard.SPACE:
+				{
+					GlobalFacade.sendNotify(KeyboardConsts.KEY_SPACE_DOWN, this, Keyboard.SPACE);
+					break;
+				}
 			}
 		}
 	}

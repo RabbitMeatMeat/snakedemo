@@ -20,5 +20,6 @@ package com.Ren.framework.consts {
 		
 		public static const KEY_RIGHT_DOWN: String  = "KEY_RIGHT_DOWN";
 		
+		public static const KEY_SPACE_DOWN: String  = "KEY_SPACE_DOWN";
 	}
 }

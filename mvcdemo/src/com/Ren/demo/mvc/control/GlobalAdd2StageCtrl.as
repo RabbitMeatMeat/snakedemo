@@ -28,8 +28,8 @@ package com.Ren.demo.mvc.control{
 			var view:SnakeView 				= new SnakeView();
 			var mediator: SnakeViewMediator = new SnakeViewMediator(view);
 			
-			view.x = 60;
-			view.y = 60;
+			view.x = 0;
+			view.y = 0;
 			displayContainer.addChild(view);
 			
 			SnakeModel.inst().init(displayContainer);

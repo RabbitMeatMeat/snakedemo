@@ -16,12 +16,28 @@ package com.Ren.demo.mvc.model{
 		public var gameState: int;
 		
 		public var snake: Array;
+		
+		public var runRocket: Array;
+		
 		/**
 		 * 
 		 * 
 		 */
 		public var dir:  Position;
-		public var bean: DisplayVO;
+		/**
+		 * 
+		 */		
+		public var apple: DisplayVO;
+		/**
+		 * 
+		 * 
+		 */
+		public var rocket: DisplayVO;
+		
+		public var numRocket: int;
+		
+		public var numApple: int;
+		
 		
 		public function SceneVO()
 		{

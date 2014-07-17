@@ -33,6 +33,8 @@ package com.Ren.framework{
 			_dicNotifClassMap[KeyboardConsts.KEY_RIGHT_DOWN] = KeyboardCtrl;
 			_dicNotifClassMap[KeyboardConsts.KEY_UP_DOWN] = KeyboardCtrl;
 			_dicNotifClassMap[KeyboardConsts.KEY_DOWN_DOWN] = KeyboardCtrl;
+			_dicNotifClassMap[KeyboardConsts.KEY_SPACE_DOWN] = KeyboardCtrl;
+			
 			
 		}
 		

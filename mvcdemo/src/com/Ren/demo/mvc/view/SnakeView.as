@@ -9,17 +9,18 @@
 package com.Ren.demo.mvc.view{
 	import com.Ren.demo.mvc.consts.SnakeConst;
 	import com.Ren.demo.mvc.model.DisplayVO;
+	import com.Ren.demo.mvc.model.Rocket;
 	import com.Ren.demo.mvc.model.SceneVO;
 	import com.Ren.demo.mvc.view.utility.SButton;
 	import com.Ren.framework.GlobalFacade;
 	
 	import flash.display.Bitmap;
-	import flash.display.Loader;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	import flash.net.URLRequest;
+	import flash.filters.DisplacementMapFilter;
 	import flash.text.TextField;
+
 	/**
 	 *显示图片的思路就是，每次显示的时候都把原先addchild进去的视图remove掉，然后在重新addchild
 	 * loadbitmap里面加载图片用的 
@@ -32,34 +33,43 @@ package com.Ren.demo.mvc.view{
 		 * 地图
 		 * 
 		 */		
-		private var _map: SnakeMapView;
+		private var _background: Bitmap;
 		/**
 		 * 
 		 * 显示提示，分数
 		 */		
-		private var _text: TextField;
-		private var _texField: SnakeTextField;
+		
+		private var _numAppleText: TextField;
+		private var _numRocketText: TextField;
+		private var _apple: Bitmap;
+		private var _rocket: Bitmap;
+		
+		
 		/**
-		 * 
+		 * 加载函数
 		 */
 		private var _loader: loadbitmap;
 		
 		/**
-		 *按钮？？？ 
+		 *按钮
 		 * 
 		 */		
 		private var _btn:SButton;
 		/**	
 		 *场景数据 
-		 * 
 		 */		
 		private var _sceneVO: SceneVO;
 		/**
 		 * 
 		 * 
 		 */
+		private var _gameOverText: TextField;
+		/**
+		 *显示队列 
+		 */		
 		private var _queueBitmap: Array;
 		private var _queueApple: Array;
+		
 		public function SnakeView(){
 			if (stage) {
 				onAdd2Stage(null);
@@ -75,150 +85,150 @@ package com.Ren.demo.mvc.view{
 			
 			_loader = new loadbitmap();
 			
-			trace(_loader.isLoad);
-			//while (_loader.isLoad == false);
-			//trace("00000000000");
-			//addChild(_loader.needbitmap(1, 0));
-			//while (1);
 			_queueBitmap = new Array();
 			_queueBitmap.splice(0);
 			
 			_queueApple = new Array();
 			_queueApple.splice(0);
 			
-			/*var len: int = _sceneVO.snake.length;
-			trace(len);
-			trace("****");
-			for (var i: int = 0; i < len; i++) {
-				var dsp: DisplayVO = _sceneVO.snake[i]; 
-				var tmpBitmap: Bitmap =_loader.needbitmap(dsp.typ, dsp.dir);
-				tmpBitmap.x = dsp.x * 30;
-				tmpBitmap.y = dsp.y * 30;
-				_queueBitmap.push(tmpBitmap);
-				
 			
-				trace(tmpBitmap.width);
-				trace("+++");
-				addChild(tmpBitmap);
-			}*/
+	
 			
-			_text = new TextField();
-			_text.x = 300;
-			_text.y = 200;
-			
-			_text.text = "GameOver!";
+			_apple = new Bitmap();
+			_rocket = new Bitmap();
 			
 			
-			
-			var imageLoader: Loader = new Loader();
-			imageLoader.contentLoaderInfo.addEventListener(Event.COMPLETE, imageLoaderComplete);
-			imageLoader.load(new URLRequest("../res/background1.png"));
-			
-			
-			
+
 			
 		/**
 		 * 
 		 */
 		}
-		public function imageLoaderComplete(event: Event): void {
-			var textureMap: Bitmap = new Bitmap(event.target.content.bitmapData);
-			textureMap.scaleX = 1;
-			textureMap.scaleY = 1;
-			textureMap.x = textureMap.y = -60;
-		/*	trace(textureMap.width);
-			trace("+");
-			trace(textureMap.height);*/
-			addChild(textureMap);
+		public function imageLoaderComplete(): void {
+			
+			_background = new Bitmap();
+			_background = _loader.needbitBackground(0, 0);
+			_background.scaleX = 1;
+			_background.scaleY = 1;
+			_background.x = _background.y = 0;
+			addChild(_background);
 			
 			_btn = new SButton();
-			
-			_btn.x = 300;
-			_btn.y = 150;
-			_btn.label = "开 始";
+			_btn.x = 350;
+			_btn.y = 250;
+			_btn.label = "start";
 			_btn.visible = true;
 			addChild(_btn);
+			
+			
+			_apple = _loader.needbitApple(0, 0);
+			_apple.x = 270;
+			_apple.y = 550;
+			addChild(_apple);
+			
+			_numAppleText = new TextField();
+			_numAppleText.x = 300;
+			_numAppleText.y = 555;
+			_numAppleText.text = ": " + _sceneVO.numApple.toString();
+			addChild(_numAppleText);
+			
+			_rocket = _loader.needbitRocket(1, 0);
+			_rocket.x = 380;
+			_rocket.y = 550;
+			addChild(_rocket);
+			
+			_numRocketText = new TextField();
+			_numRocketText.x = 410;
+			_numRocketText.y = 555;
+			_numRocketText.text = ": "+ _sceneVO.numRocket.toString();
+			addChild(_numRocketText);
+			
+			_gameOverText = new TextField();
+			_gameOverText.x = 350;
+			_gameOverText.y = 350;
+			_gameOverText.text = "Game Over!";
+			_gameOverText.visible = false;
+			addChild(_gameOverText);
+			
+			
+
 			
 			_btn.addEventListener(MouseEvent.CLICK, onStartGame);
 			
 			
 		}
 		protected function onStartGame(evt: MouseEvent): void {
-			trace("#1");
-			removeChild(_btn);
-			if (this.contains(_text) == true) removeChild(_text);
+		
+			_btn.visible = false;
+			_gameOverText.visible = false;
 			GlobalFacade.sendNotify(SnakeConst.V2MT_GAME_START, this);
 			
 		}
 		
-		public function updateSnake(): void {
-		/*	trace("**************");
-			trace("x: "+ _sceneVO.bean.x);
-			trace("y: "+ _sceneVO.bean.y);
-			trace("typ: " +_sceneVO.bean.typ);
-			trace("typ: " +_sceneVO.bean.dir);
-			for each(var val3: DisplayVO in _sceneVO.snake) {
-				trace("x: " + val3.x);
-				trace("y: " + val3.y);
-				trace("typ: " +val3.typ);
-				trace("typ: " + val3.dir);
-				
-			}
-			trace("**************");*/
-			for each (var val: Bitmap in _queueBitmap) {
-				removeChild(val);
-				
-			}
-			_queueBitmap.splice(0);
-		//	_queueApple.splice(0);
-			for each (var val2: DisplayVO in _sceneVO.snake) {
-				updateBody(val2);
-			}
-		}
 		
 		public function updateScene(): void {
-			
-			for each(var val: Bitmap in _queueApple) {
+			for each (var val: Bitmap in _queueBitmap) {
 				removeChild(val);
 			}
-			//_queueBitmap.splice(0);
-			_queueApple.splice(0);
-			updateApple(_sceneVO.bean);
+			_queueBitmap.splice(0);
+			
+			updateApple(_sceneVO.apple);
+			updateRocket(_sceneVO.rocket);
+			updateRunRocket();
 			updateSnake();
 		}
-		
-		public function updateBody(val: DisplayVO): void {
-			trace(val.typ);
-			trace(val.dir);
-			trace("/////");
-			var tmpBitmap: Bitmap =_loader.needbitmap(val.typ, val.dir);
-			tmpBitmap.x = val.x * 30;
-			tmpBitmap.y = val.y * 30;
-			_queueBitmap.push(tmpBitmap);
-		/*	trace(tmpBitmap.x);
-			trace(tmpBitmap.y);
-			trace("-----");*/
-			addChild(tmpBitmap);
-			
+		public function updateRunRocket():void {
+			for each(var val: Rocket in _sceneVO.runRocket) {
+				if (val.visible == false) continue;
+				var tmpBitmap: Bitmap;
+				if (val.typ == 0) tmpBitmap = _loader.needbitRocket(0, val.dirIdx);
+				else tmpBitmap = _loader.needbitRocket(1, 1);
+				tmpBitmap.x = SnakeConst.MAP_STARTX + val.pos.x * 30;
+				tmpBitmap.y = SnakeConst.MAP_STARTY + val.pos.y * 30;
+				_queueBitmap.push(tmpBitmap);
+				addChild(tmpBitmap);
+			}
 		}
+		public function updateSnake(): void {
+			for each (var val: DisplayVO in _sceneVO.snake) {
+				var tmpBitmap: Bitmap =_loader.needbitBody(val.typ, val.dir);
+				tmpBitmap.x = SnakeConst.MAP_STARTX + val.x * 30;
+				tmpBitmap.y = SnakeConst.MAP_STARTY + val.y * 30;
+				_queueBitmap.push(tmpBitmap);
+				addChild(tmpBitmap);
+			}
+		}
+		
 		public function updateApple(val: DisplayVO): void {
-			
-			var tmpBitmap: Bitmap =_loader.needbitmap2(val.typ, val.dir);
-			tmpBitmap.x = val.x * 30;
-			tmpBitmap.y = val.y * 30;
-			_queueApple.push(tmpBitmap);
-			/*	trace(tmpBitmap.x);
-			trace(tmpBitmap.y);
-			trace("-----");*/
+		
+			var tmpBitmap: Bitmap =_loader.needbitApple(val.typ, val.dir);
+			tmpBitmap.x = SnakeConst.MAP_STARTX + val.x * 30;
+			tmpBitmap.y = SnakeConst.MAP_STARTY + val.y * 30;
+			_queueBitmap.push(tmpBitmap);
 			addChild(tmpBitmap);
 			
+			_numAppleText.text = ": " + _sceneVO.numApple.toString();
+		}
+		
+		public function updateRocket(val: DisplayVO): void {
+			if (val.need2Add2Stage == true) {
+				var tmpBitmap: Bitmap =_loader.needbitRocket(1, 0);
+				tmpBitmap.x = SnakeConst.MAP_STARTX + val.x * 30;
+				tmpBitmap.y = SnakeConst.MAP_STARTY + val.y * 30;
+				_queueBitmap.push(tmpBitmap);
+				addChild(tmpBitmap);	
+			}
+			_numRocketText.text = ": " + _sceneVO.numRocket.toString();
+			//trace("ROCKET");
 		}
 		
 		public function eatBean(): void {
 			updateScene();
 		}
+		public function getRocket(): void {
+			updateScene();
+		}
 		public function gameOver(): void {
-			trace("#0"); 
 			for each (var val: Bitmap in _queueBitmap) {
 				removeChild(val);
 			}
@@ -227,9 +237,10 @@ package com.Ren.demo.mvc.view{
 			}
 			_queueBitmap.splice(0);
 			_queueApple.splice(0);
+			_btn.visible = true;
+			_gameOverText.visible = true;
 			_btn.addEventListener(MouseEvent.CLICK, onStartGame);
-			addChild(_btn);
-			addChild(_text);
+			
 		}
 	}
 }

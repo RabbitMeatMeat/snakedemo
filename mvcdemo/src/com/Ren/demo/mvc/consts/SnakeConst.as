@@ -8,6 +8,8 @@
 
 package com.Ren.demo.mvc.consts{
 	public class SnakeConst{
+		public static const MAP_STARTX: int 			= 60;
+		public static const MAP_STARTY: int 			= 60;
 		/**
 		 *贪吃蛇活动的区域宽 
 		 * 
@@ -44,18 +46,23 @@ package com.Ren.demo.mvc.consts{
 		 * 
 		 */		
 		public static const M2MT_UPDATE_SNAKE:String    = "M2MT_UPDATE_SNAKE";
+		public static const M2MT_UPDATE_SCENE:String    = "M2MT_UPDATE_SCENE";
 		/**
 		 *model通知mediator,蛇吃到豆子 
 		 * 
 		 */		
 		public static const M2MT_EAT_BEAN:String 		= "M2MT_EAT_BEAN";
-		
+		public static const M2MT_GET_ROCKET:String 		= "M2MT_GET_ROCKET"
 		/**
 		 *model通知mediator,游戏结束
 		 * 
 		 */		
 		public static const M2MT_GAME_OVER:String 		= "M2MT_GAME_OVER";
 		
+		/**
+		 *view 通知 view图片加载完成 
+		 */		
+		public static const V2V_LOAD_END:String			= "V2V_LOAD_END";
 		/**
 		 *全局通知，主容器已经添加到舞台 
 		 * 
