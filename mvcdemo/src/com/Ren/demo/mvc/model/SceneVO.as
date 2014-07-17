@@ -19,6 +19,7 @@ package com.Ren.demo.mvc.model{
 		
 		public var runRocket: Array;
 		
+		public var applePosition: Array;
 		/**
 		 * 
 		 * 
@@ -27,7 +28,7 @@ package com.Ren.demo.mvc.model{
 		/**
 		 * 
 		 */		
-		public var apple: DisplayVO;
+		
 		/**
 		 * 
 		 * 
@@ -37,7 +38,7 @@ package com.Ren.demo.mvc.model{
 		public var numRocket: int;
 		
 		public var numApple: int;
-		
+		public var numAppleOnStage: int;
 		
 		public function SceneVO()
 		{

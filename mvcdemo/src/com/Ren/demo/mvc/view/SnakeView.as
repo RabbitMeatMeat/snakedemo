@@ -172,7 +172,7 @@ package com.Ren.demo.mvc.view{
 			}
 			_queueBitmap.splice(0);
 			
-			updateApple(_sceneVO.apple);
+			updateApple();
 			updateRocket(_sceneVO.rocket);
 			updateRunRocket();
 			updateSnake();
@@ -199,19 +199,21 @@ package com.Ren.demo.mvc.view{
 			}
 		}
 		
-		public function updateApple(val: DisplayVO): void {
-		
-			var tmpBitmap: Bitmap =_loader.needbitApple(val.typ, val.dir);
-			tmpBitmap.x = SnakeConst.MAP_STARTX + val.x * 30;
-			tmpBitmap.y = SnakeConst.MAP_STARTY + val.y * 30;
-			_queueBitmap.push(tmpBitmap);
-			addChild(tmpBitmap);
+		public function updateApple(): void {
+			for each(var val:DisplayVO in _sceneVO.applePosition) {
+				if (val.visible == false) continue;
+				var tmpBitmap: Bitmap =_loader.needbitApple(0, 0);
+				tmpBitmap.x = SnakeConst.MAP_STARTX + val.x * 30;
+				tmpBitmap.y = SnakeConst.MAP_STARTY + val.y * 30;
+				_queueBitmap.push(tmpBitmap);
+				addChild(tmpBitmap);
+			}
 			
 			_numAppleText.text = ": " + _sceneVO.numApple.toString();
 		}
 		
 		public function updateRocket(val: DisplayVO): void {
-			if (val.need2Add2Stage == true) {
+			if (val.visible == true) {
 				var tmpBitmap: Bitmap =_loader.needbitRocket(1, 0);
 				tmpBitmap.x = SnakeConst.MAP_STARTX + val.x * 30;
 				tmpBitmap.y = SnakeConst.MAP_STARTY + val.y * 30;
