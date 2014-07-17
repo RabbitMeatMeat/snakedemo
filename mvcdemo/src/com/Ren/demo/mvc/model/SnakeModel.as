@@ -126,7 +126,7 @@ package com.Ren.demo.mvc.model{
 					//					_sceneVO.vecMapGridState[dsp.x][dsp.y] = 1;
 				}
 				
-				var i: int = 1;
+				//
 				
 				newBean();
 				/*trace(_sceneVO.bean.x);
